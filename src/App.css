@@ -1,0 +1,430 @@
+/* ===================================================================
+   App.css — Component-level Styles
+   ===================================================================
+   LEARNING COMMENT:
+   We keep component styles in a separate file from the global design
+   tokens (index.css) so the concerns stay separated:
+     • index.css  →  colours, fonts, resets  (design system)
+     • App.css    →  layout & component look  (UI)
+   =================================================================== */
+
+/* -------------------- App Layout -------------------- */
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 4rem var(--space-lg);
+  gap: var(--space-xl);
+  background: var(--bg-primary);
+  transition: background 1.2s ease;
+}
+
+/* -------------------- Header / Title -------------------- */
+.app__header {
+  text-align: center;
+  margin-bottom: var(--space-sm);
+}
+
+.app__date {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  margin-bottom: var(--space-md);
+}
+
+.app__title {
+  font-size: var(--fs-3xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+}
+
+.app__subtitle {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  margin-top: var(--space-xs);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* -------------------- Search Bar -------------------- */
+/*
+   LEARNING: We use a <form> wrapping the input + button so that
+   pressing Enter triggers the onSubmit handler naturally (HTML
+   form behaviour).
+*/
+.search-bar {
+  display: flex;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 520px;
+}
+
+.search-bar__input {
+  flex: 1;
+  padding: 0.875rem var(--space-lg);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  font-size: var(--fs-md);
+  font-family: var(--font-family);
+  outline: none;
+  transition: border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.search-bar__input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-bar__input:focus {
+  border-color: #3f3f46;
+  box-shadow: 0 0 0 1px #3f3f46;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.search-bar__btn {
+  padding: 0.875rem var(--space-xl);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: transform var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.search-bar__btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: #3f3f46;
+}
+
+.search-bar__btn:active {
+  transform: translateY(0);
+}
+
+.search-bar__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* -------------------- Unit Toggle -------------------- */
+/*
+   LEARNING: The toggle uses two <button> elements inside a
+   container. We highlight the active unit with the accent
+   gradient and dim the inactive one.
+*/
+.unit-toggle {
+  display: flex;
+  background: transparent;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.unit-toggle__btn {
+  padding: var(--space-xs) var(--space-lg);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  font-family: var(--font-family);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.unit-toggle__btn--active {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-radius: var(--radius-full);
+}
+
+.unit-toggle__btn:hover:not(.unit-toggle__btn--active) {
+  color: var(--text-secondary);
+}
+
+/* -------------------- Weather Card -------------------- */
+/*
+   LEARNING: Glassmorphism is achieved by combining:
+   1. a semi-transparent background (bg-card)
+   2. backdrop-filter: blur(…)
+   3. a subtle border
+   This gives a "frosted glass" look that's very trendy.
+*/
+.weather-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl) var(--space-xl);
+  text-align: center;
+  transition: transform var(--transition-base),
+    border-color var(--transition-base);
+  animation: fadeSlideUp 0.5s ease forwards;
+}
+
+.weather-card:hover {
+  transform: translateY(-2px);
+  border-color: #3f3f46;
+}
+
+/* Weather icon from OpenWeatherMap */
+.weather-card__icon {
+  width: 96px;
+  height: 96px;
+  animation: float 3s ease-in-out infinite;
+  filter: brightness(1.1);
+}
+
+.weather-card__city {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  margin-top: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.weather-card__temp {
+  font-size: 3.5rem;
+  font-weight: 200;
+  color: var(--text-primary);
+  margin: var(--space-xs) 0;
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.weather-card__condition {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-transform: capitalize;
+  letter-spacing: 0.04em;
+}
+
+.weather-card__details {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.weather-card__detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.weather-card__detail-label {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.weather-card__detail-value {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* -------------------- Loading State -------------------- */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl);
+  animation: fadeSlideUp 0.3s ease forwards;
+}
+
+.loading__spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading__text {
+  color: var(--text-secondary);
+  font-size: var(--fs-md);
+}
+
+/* -------------------- Error State -------------------- */
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-md);
+  color: #fca5a5;
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  animation: shake 0.4s ease;
+  max-width: 520px;
+  width: 100%;
+}
+
+.error__icon {
+  font-size: var(--fs-lg);
+  flex-shrink: 0;
+}
+
+/* -------------------- Recent Searches -------------------- */
+.recent {
+  width: 100%;
+  max-width: 520px;
+  animation: fadeSlideUp 0.4s ease forwards;
+}
+
+.recent__title {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-sm);
+  font-weight: 500;
+}
+
+.recent__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  list-style: none;
+}
+
+.recent__item {
+  padding: var(--space-xs) var(--space-md);
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.recent__item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border-color: #3f3f46;
+}
+
+/* -------------------- Animations -------------------- */
+/*
+   LEARNING: @keyframes lets you define multi-step animations.
+   We use them for the loading spinner, the floating weather icon,
+   and entrance effects.
+*/
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-6px);
+  }
+
+  40% {
+    transform: translateX(6px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+/* -------------------- Responsive -------------------- */
+@media (max-width: 520px) {
+  .app {
+    padding: var(--space-lg) var(--space-sm);
+  }
+
+  .app__title {
+    font-size: var(--fs-2xl);
+  }
+
+  .search-bar {
+    flex-direction: column;
+  }
+
+  .search-bar__btn {
+    width: 100%;
+  }
+
+  .weather-card {
+    padding: var(--space-xl);
+  }
+
+  .weather-card__temp {
+    font-size: var(--fs-2xl);
+  }
+}
